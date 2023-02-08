@@ -14,7 +14,7 @@ export default hopeTheme({
 
   logo: "/logo.svg",
 
-  // repo: "vuepress-theme-hope/vuepress-theme-hope",
+  repo: "Lixuhuilll/blog.xuhui.tech",
 
   blog: {
     roundAvatar: true,
@@ -55,10 +55,10 @@ export default hopeTheme({
        * Using Giscus
        */
       provider: "Giscus",
-      repo: "vuepress-theme-hope/giscus-discussions",
-      repoId: "R_kgDOG_Pt2A",
+      repo: "Lixuhuilll/blog.xuhui.tech",
+      repoId: "R_kgDOI66gQw",
       category: "Announcements",
-      categoryId: "DIC_kwDOG_Pt2M4COD69",
+      categoryId: "DIC_kwDOI66gQ84CUFLE",
     },
 
     // Disable features you don’t want here
