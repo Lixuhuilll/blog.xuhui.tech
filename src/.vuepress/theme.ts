@@ -47,6 +47,8 @@ export default hopeTheme({
 
   plugins: {
     blog: {
+      // 修改自动摘要的长度
+      excerptLength: 100,
       type: [
         {
           key: "gossip",
