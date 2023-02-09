@@ -1,6 +1,3 @@
----
-icon: note
-sidebar: false
----
+
 # Hello World
 折腾这个博客，就是想在网上分享一下自己学习过程中解决的问题。
