@@ -1,4 +1,5 @@
 import { hopeTheme } from "vuepress-theme-hope";
+import { compareDate } from "vuepress-shared";
 import { zhNavbar } from "./navbar/index.js";
 import { zhSidebar } from "./sidebar/index.js";
 
@@ -19,7 +20,6 @@ export default hopeTheme({
   blog: {
     roundAvatar: true,
   },
-
   locales: {
     "/": {
       // navbar
@@ -34,14 +34,31 @@ export default hopeTheme({
 
       blog: {
         description: "一个正在学习的后端开发者",
+        timeline: "时间轴",
         // intro: "/intro.html",
       },
+      blogLocales: {
+        gossip: "杂谈",
+      },
       editLink: false,
+      contributors: false,
     },
   },
 
   plugins: {
-    blog: true,
+    blog: {
+      type: [
+        {
+          key: "gossip",
+          path: "/gossip/",
+          filter: (page) => page.path.startsWith("/gossip/"),
+          // 按照时间排序
+          sorter: (a, b) => {
+            return compareDate(a.frontmatter.date, b.frontmatter.date);
+          },
+        },
+      ],
+    },
 
     // 代码复制插件
     copyCode: {
@@ -85,19 +102,6 @@ export default hopeTheme({
       presentation: {
         plugins: ["highlight", "math", "search", "notes", "zoom"],
       },
-      stylize: [
-        {
-          matcher: "Recommended",
-          replacer: ({ tag }) => {
-            if (tag === "em")
-              return {
-                tag: "Badge",
-                attrs: { type: "tip" },
-                content: "Recommended",
-              };
-          },
-        },
-      ],
       sub: true,
       sup: true,
       tabs: true,
