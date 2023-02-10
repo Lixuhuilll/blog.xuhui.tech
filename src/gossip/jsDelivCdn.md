@@ -12,7 +12,7 @@ tag:
 
 网络上的图床方案非常多，jsDeliv + Github对我来说应该是最简便的了。简单来说jsDeliv会自动收录所有Github上的开源仓库，将它们部署到CDN，只需要通过 `https://cdn.jsdelivr.net/gh/<GitHub用户名>/<GitHub仓库名>/` 便可访问到仓库根目录(*注意不要忽略结尾的 /* )。
 
-以本项目为例，项目根目录就是[https://cdn.jsdelivr.net/gh/lixuhuilll/blog.xuhui.tech/](https://cdn.jsdelivr.net/gh/lixuhuilll/blog.xuhui.tech/ "本项目在jsDeliv中的GitHub根")，如果我需要插入项目目录下的/static/image/p1.png，则图片地址为[https://cdn.jsdelivr.net/gh/lixuhuilll/blog.xuhui.tech/static/image/p1.png](https://cdn.jsdelivr.net/gh/lixuhuilll/blog.xuhui.tech/static/image/p1.png "图片")
+以本项目为例，项目根目录就是[https://cdn.jsdelivr.net/gh/lixuhuilll/blog.xuhui.tech/](https://cdn.jsdelivr.net/gh/lixuhuilll/blog.xuhui.tech/ "本项目在jsDeliv中的GitHub根")，如果我需要插入项目目录下的/static/image/p1.png，则图片地址为`https://cdn.jsdelivr.net/gh/lixuhuilll/blog.xuhui.tech/static/image/p1.png`
 
 在markdown中，插入图片只需要 `![<描述图片的关键词，可以不写>](<图片URL>)`即可，以p1.png为例，则是 `![一张图片](https://cdn.jsdelivr.net/gh/lixuhuilll/blog.xuhui.tech/static/image/p1.png)`:
 
