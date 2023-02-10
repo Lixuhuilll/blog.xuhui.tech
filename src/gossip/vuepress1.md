@@ -1,6 +1,6 @@
 ---
 date: 2022-2-10
-tags: 
+tag: 
   - VuePress
   - Web
 ---
