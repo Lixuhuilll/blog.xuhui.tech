@@ -8,6 +8,6 @@
 
 `src/` 为源文件目录，包括所有的源文件，例如文章、页面、VuePress配置文件、图片等。
 
-    其中`src/.vuepress/navbar/`、`src/.vuepress/sidebar/`、`src/.vuepress/styles/`、`src/.vuepress/config.ts`、`src/.vuepress/theme.ts` 均为配置文件，`src/.vuepress/public/` 内则是网站的静态资源文件，例如网站的logo。
+    其中`src/.vuepress/navbar/`、`src/.vuepress/sidebar/`、`src/.vuepress/styles/`、`src/.vuepress/config.ts`、`src/.vuepress/theme.ts` 均为配置文件，`src/.vuepress/public/` 内则是网站的静态资源文件，例如网站的logo，除此之外，其他文件均为文章或页面。
 
 `build.sh` 为构建脚本，用于构建项目，只需要配置CI的构建命令为 `bash build.sh`即可。
