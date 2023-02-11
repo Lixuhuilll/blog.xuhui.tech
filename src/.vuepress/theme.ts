@@ -66,8 +66,10 @@ export default hopeTheme({
               page.frontmatter.breadcrumb = false;
               // 以时间作为侧边栏自动排序依据
               if (page.frontmatter.date && page.frontmatter.order === undefined) {
-                // 计算日期和当前日期的差值
-                const diff = new Date().getTime() - new Date(page.frontmatter.date).getTime();
+                // 获取明天的时间值为标准，彻底解决时区问题导致order出现负数的问题
+                const tomorrowTime = new Date().getTime() + 24 * 60 * 60 * 1000;
+                // 计算标准时间值和page时间值的差值
+                const diff = tomorrowTime - new Date(page.frontmatter.date).getTime();
                 page.frontmatter.order = diff;
               }
               return true;
