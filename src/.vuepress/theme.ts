@@ -65,9 +65,9 @@ export default hopeTheme({
               // 不显示面包屑
               page.frontmatter.breadcrumb = false;
               // 以时间作为侧边栏自动排序依据
-              if (page.frontmatter.date && page.frontmatter.order === undefined) {
+              if (page.date && page.frontmatter.order === undefined) {
                 // 计算日期和当前日期的差值
-                const diff = new Date().getTime() - new Date(page.frontmatter.date).getTime();
+                const diff = new Date().getTime() - new Date(page.date).getTime();
                 page.frontmatter.order = diff;
               }
               return true;
@@ -75,7 +75,7 @@ export default hopeTheme({
           },
           // 按照时间排序
           sorter: (a, b) => {
-            return compareDate(a.frontmatter.date, b.frontmatter.date);
+            return compareDate(a.date, b.date);
           },
         },
       ],
