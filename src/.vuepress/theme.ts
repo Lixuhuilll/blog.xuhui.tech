@@ -20,6 +20,7 @@ export default hopeTheme({
   blog: {
     roundAvatar: true,
   },
+
   locales: {
     "/": {
       // navbar
@@ -33,7 +34,7 @@ export default hopeTheme({
       displayFooter: true,
 
       blog: {
-        description: "一个正在学习的后端开发者",
+        description: "一个正在学习前端的后端开发者",
         timeline: "时间轴",
         // intro: "/intro.html",
       },
