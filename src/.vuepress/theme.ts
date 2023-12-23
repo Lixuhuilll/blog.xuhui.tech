@@ -1,7 +1,6 @@
-import { hopeTheme } from "vuepress-theme-hope";
-import { compareDate } from "vuepress-shared";
-import { zhNavbar } from "./navbar/index.js";
-import { zhSidebar } from "./sidebar/index.js";
+import {hopeTheme} from "vuepress-theme-hope";
+import {zhNavbar} from "./navbar";
+import {zhSidebar} from "./sidebar";
 
 export default hopeTheme({
   hostname: "https://blog.xuhui.tech",
@@ -20,6 +19,8 @@ export default hopeTheme({
   blog: {
     roundAvatar: true,
   },
+
+  sidebarSorter: ["readme", "order", "date-desc", "title", "filename"],
 
   locales: {
     "/": {
@@ -49,39 +50,7 @@ export default hopeTheme({
   plugins: {
     blog: {
       // 修改自动摘要的长度
-      excerptLength: 100,
-      type: [
-        {
-          key: "gossip",
-          path: "/gossip/",
-          // 判断是否是该分类，顺便做一些加工
-          filter: (page) => {
-            if (!page.path.startsWith("/gossip/"))
-              return false;
-            else {
-              // 如果没有设置图标，则使用默认图标
-              if (!page.frontmatter.icon) {
-                page.frontmatter.icon = "note";
-              }
-              // 不显示面包屑
-              page.frontmatter.breadcrumb = false;
-              // 以时间作为侧边栏自动排序依据
-              if (page.frontmatter.date && page.frontmatter.order === undefined) {
-                // 获取明天的时间值为标准，彻底解决时区问题导致order出现负数的问题
-                const tomorrowTime = new Date().getTime() + 24 * 60 * 60 * 1000;
-                // 计算标准时间值和page时间值的差值
-                const diff = tomorrowTime - new Date(page.frontmatter.date).getTime();
-                page.frontmatter.order = diff;
-              }
-              return true;
-            }
-          },
-          // 按照时间排序
-          sorter: (a, b) => {
-            return compareDate(a.frontmatter.date, b.frontmatter.date);
-          },
-        },
-      ],
+      excerptLength: 100
     },
 
     // 代码复制插件
@@ -106,31 +75,32 @@ export default hopeTheme({
     mdEnhance: {
       align: true,
       attrs: true,
-      chart: true,
+      chart: false,
       codetabs: true,
       container: true,
       demo: true,
-      echarts: true,
+      echarts: false,
       figure: true,
-      flowchart: true,
+      flowchart: false,
       gfm: true,
       imgLazyload: true,
       imgSize: true,
       include: true,
-      katex: true,
+      katex: false,
       mark: true,
-      mermaid: true,
+      mermaid: false,
       playground: {
         presets: ["ts", "vue"],
       },
-      presentation: {
+      revealJs: false,
+      /*{
         plugins: ["highlight", "math", "search", "notes", "zoom"],
-      },
+      },*/
       sub: true,
       sup: true,
       tabs: true,
       vPre: true,
-      vuePlayground: true,
+      vuePlayground: false,
     },
   },
 });
