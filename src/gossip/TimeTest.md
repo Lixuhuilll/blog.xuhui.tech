@@ -275,6 +275,6 @@ public class TimeTest3 {
 3.缓存时间戳（SystemClock.now）确实有一些提升性能的效果，但效果并不是特别显著，差不多就是单线程和多线程
 System.currentTimeMillis() 的区别。
 
-4.System.currentTimeMillis() 调用一次撑死占用几百纳秒，这种性能损耗基本不会影响业务逻辑。
+4.System.currentTimeMillis() 调用一次撑死占用几十纳秒，这种性能损耗基本不会影响业务逻辑。
 
 以上结论都是基于我的测试代码，如果各位有更好的测试方法，欢迎留言讨论。
