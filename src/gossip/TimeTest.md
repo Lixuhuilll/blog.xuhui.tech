@@ -143,7 +143,7 @@ public class TimeTest2 {
 
     private static long getRunTime(Runnable run) throws InterruptedException {
         var latch = new CountDownLatch(TimeTest2.count2);
-        LongAdder adder = new LongAdder();
+        var adder = new LongAdder();
 
         for (int i = 0; i < TimeTest2.count2; i++) {
             executor.execute(() -> {
@@ -206,7 +206,7 @@ public class TimeTest3 {
 
     private static long getRunTime(Runnable run) throws InterruptedException {
         var latch = new CountDownLatch(TimeTest3.count2);
-        LongAdder adder = new LongAdder();
+        var adder = new LongAdder();
 
         for (int i = 0; i < TimeTest3.count2; i++) {
             executor.execute(() -> {
@@ -244,8 +244,15 @@ public class TimeTest3 {
 :::
 
 ## 测试结果
-
-测试用 Java 版本：java 17.0.9 2023-10-17 LTS
+测试用 Java 信息：
+```
+java 17.0.9 2023-10-17 LTS
+Java(TM) SE Runtime Environment (build 17.0.9+11-LTS-201)
+Java HotSpot(TM) 64-Bit Server VM (build 17.0.9+11-LTS-201, mixed mode, sharing)
+```
+测试系统：`Windows 11 专业版 22H2`
+处理器：`11th Gen Intel(R) Core(TM) i7-11800H`
+JVM 无任何调优，全部保持默认
 
 本来打算画几个折线图，先放上平均时间，折线图下次再画。
 
@@ -272,9 +279,8 @@ public class TimeTest3 {
 
 2.System.currentTimeMillis() 多线程并发并不会出现严重性能下降，性能差距大概在 10% 左右。
 
-3.缓存时间戳（SystemClock.now）确实有一些提升性能的效果，但效果并不是特别显著，差不多就是单线程和多线程
-System.currentTimeMillis() 的区别。
+3.缓存时间戳（SystemClock.now）确实有一些提升性能的效果，但效果并不是特别显著，差不多就是单线程和多线程 System.currentTimeMillis() 的区别。
 
 4.System.currentTimeMillis() 调用一次撑死占用几十纳秒，这种性能损耗基本不会影响业务逻辑。
 
-以上结论都是基于我的测试代码，如果各位有更好的测试方法，欢迎留言讨论。
+以上结论只对上述代码和上述测试平台负责，如果各位有更好的测试方法，欢迎留言讨论。
