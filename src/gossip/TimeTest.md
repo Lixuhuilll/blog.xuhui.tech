@@ -11,7 +11,7 @@ tag:
 在项目中，我们经常需要获取当前时间戳。
 在Java中，获取当前时间戳最简单的方法就是使用System.currentTimeMillis()方法。
 而如果在网络上搜索System.currentTimeMillis()，你会看到很多文章说System.currentTimeMillis()方法并发性能很差， 应该避免使用。
-然而看他们给出的代码，你会发现两个疑点：<br>
+然而看他们给出的代码，你会发现两个疑点：
 
 1.他们的代码将带 CAS 操作的多线程并发和无 CAS 操作的单线程进行了对比。
 这显然是不合理的，CAS 高并发下存在显著的性能问题，CAS 操作可能会频繁空转占用大量时间，高并发下甚至性能还不如直接加悲观锁。
@@ -245,11 +245,11 @@ public class TimeTest3 {
 
 ## 测试结果
 测试用 Java 信息：
-```
-java 17.0.9 2023-10-17 LTS
+
+>java 17.0.9 2023-10-17 LTS
 Java(TM) SE Runtime Environment (build 17.0.9+11-LTS-201)
 Java HotSpot(TM) 64-Bit Server VM (build 17.0.9+11-LTS-201, mixed mode, sharing)
-```
+
 测试系统：`Windows 11 专业版 22H2`
 处理器：`11th Gen Intel(R) Core(TM) i7-11800H`
 JVM 无任何调优，全部保持默认
@@ -258,17 +258,17 @@ JVM 无任何调优，全部保持默认
 
 ::: tabs#结果
 @tab 多线程包含 CAS 用时
-17:30:59.899 [main] INFO TimeTest - System.currentTimeMillis, 多线程平均用时：1.31782509E8 ns
+>17:30:59.899 [main] INFO TimeTest - System.currentTimeMillis, 多线程平均用时：1.31782509E8 ns
 17:30:59.900 [main] INFO TimeTest - Instant.now, 多线程平均用时：1.42121775E8 ns
 17:30:59.900 [main] INFO TimeTest - SystemClock.now, 多线程平均用时：1.24788407E8 ns
 
 @tab 多线程不包含 CAS 用时
-17:36:00.346 [main] INFO TimeTest2 - System.currentTimeMillis, 多线程平均用时：2.9434522E7 ns
+>17:36:00.346 [main] INFO TimeTest2 - System.currentTimeMillis, 多线程平均用时：2.9434522E7 ns
 17:36:00.347 [main] INFO TimeTest2 - Instant.now, 多线程平均用时：4.3430665E7 ns
 17:36:00.347 [main] INFO TimeTest2 - SystemClock.now, 多线程平均用时：2.5953399E7 ns
 
 @tab 单线程用时
-17:36:55.872 [main] INFO TimeTest3 - System.currentTimeMillis, 多线程平均用时：2.4671727E7 ns
+>17:36:55.872 [main] INFO TimeTest3 - System.currentTimeMillis, 多线程平均用时：2.4671727E7 ns
 17:36:55.873 [main] INFO TimeTest3 - System.currentTimeMillis, 单线程平均用时：2.2627341E7 ns
 
 :::
