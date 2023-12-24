@@ -255,7 +255,7 @@ Java HotSpot(TM) 64-Bit Server VM (build 17.0.9+11-LTS-201, mixed mode, sharing)
 
 测试分两种：
 1.JVM 无任何调优，全部保持默认，测试上述三段代码
-2.JVM 通过 -Xint 禁用 JIT 优化，避免优化措施导致根本测不出有效结果（去掉 JIT 后运行太慢了，就只测了后两段）
+2.JVM 通过 -Xint 禁用 JIT 优化，避免优化措施导致根本测不出有效结果
 
 
 默认的结果：
@@ -277,8 +277,13 @@ Java HotSpot(TM) 64-Bit Server VM (build 17.0.9+11-LTS-201, mixed mode, sharing)
 
 :::
 
-禁止优化的结果，只测试了 多线程不包含 CAS 以及 单线程多线程对比：
+禁止优化的结果：
 ::: tabs#禁止优化结果
+
+@tab 多线程包含 CAS 用时
+>23:25:05.384 [main] INFO TimeTest - System.currentTimeMillis, 多线程平均用时：2.011485065E9 ns
+23:25:05.385 [main] INFO TimeTest - Instant.now, 多线程平均用时：2.297455625E9 ns
+23:25:05.385 [main] INFO TimeTest - SystemClock.now, 多线程平均用时：2.050010555E9 ns
 
 @tab 多线程不包含 CAS 用时
 >22:46:06.266 [main] INFO TimeTest2 - System.currentTimeMillis, 多线程平均用时：1.40766308E8 ns
@@ -293,10 +298,10 @@ Java HotSpot(TM) 64-Bit Server VM (build 17.0.9+11-LTS-201, mixed mode, sharing)
 
 ## 初步结论
 
-1.可以发现，CAS 在高并发下真的很慢，JIT 案例中绝大部分时间都用来进行 CAS 操作了。
+1.可以发现，CAS 在高并发下真的很慢，如果运行时间包含 CAS 操作的时间，直接抬升一个数量级。
 
-2.System.currentTimeMillis() 在单线程下性能可能是多线程并发的两倍左右（具体差距未知，取决于 System.nanoTime() 的粒度），不太可能是网传的几十倍几百倍性能差距。
+2.System.currentTimeMillis() 调用一次撑死占用几百纳秒，这种性能损耗基本不会影响业务逻辑。
 
-3.System.currentTimeMillis() 调用一次撑死占用一百多纳秒，这种性能损耗基本不会影响业务逻辑（实际单次调用耗时只会更少，你见过谁家线上服务器不开 JIT 的）。
+因为我的平台上 System.nanoTime() 的粒度大约为 100 ns，上述测试不能很好地反映出绝对的性能差距，不过有上述两条结论，就足以说明我们不需要在意所谓的 System.currentTimeMillis() 性能问题了。
 
 以上结论只对上述代码和上述测试平台负责，如果各位有更好的测试方法，欢迎留言讨论。
