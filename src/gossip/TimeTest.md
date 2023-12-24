@@ -22,8 +22,7 @@ tag:
 
 ## 测试代码
 
-多说无益，直接上代码。编写了多线程情况下，System.currentTimeMillis()、Instant.now() 以及 Hutool 工具类中的 SystemClock.now()
-三种获取当前时间戳的方法的性能测试代码。
+多说无益，直接上代码。编写了多线程情况下，System.currentTimeMillis()、Instant.now() 以及 Hutool 工具类中的 SystemClock.now() 三种获取当前时间戳的方法的性能测试代码。
 以及单线程、多线程下 System.currentTimeMillis() 的性能对比代码。
 而且多线程对比写了两份，一份包含 CAS 用时，一份不将 CAS 用时放入结果。
 每次测试会循环 100 次取平均值，每次循环会对每种 API 各取 100 万次时钟，多线程的线程数量和当前运行设备的 CPU 线程数相同。
