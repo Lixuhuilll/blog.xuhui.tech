@@ -252,11 +252,15 @@ Java HotSpot(TM) 64-Bit Server VM (build 17.0.9+11-LTS-201, mixed mode, sharing)
 
 测试系统：`Windows 11 专业版 22H2`
 处理器：`11th Gen Intel(R) Core(TM) i7-11800H`
-JVM 无任何调优，全部保持默认
 
-本来打算画几个折线图，先放上平均时间，折线图下次再画。
+测试分两种：
+1.JVM 无任何调优，全部保持默认，测试上述三段代码
+2.JVM 通过 -Xint 禁用 JIT 优化，避免优化措施导致根本测不出有效结果（去掉 JIT 后运行太慢了，就只测了后两段）
 
-::: tabs#结果
+
+默认的结果：
+::: tabs#默认结果
+
 @tab 多线程包含 CAS 用时
 >17:30:59.899 [main] INFO TimeTest - System.currentTimeMillis, 多线程平均用时：1.31782509E8 ns
 17:30:59.900 [main] INFO TimeTest - Instant.now, 多线程平均用时：1.42121775E8 ns
@@ -267,20 +271,32 @@ JVM 无任何调优，全部保持默认
 17:36:00.347 [main] INFO TimeTest2 - Instant.now, 多线程平均用时：4.3430665E7 ns
 17:36:00.347 [main] INFO TimeTest2 - SystemClock.now, 多线程平均用时：2.5953399E7 ns
 
-@tab 单线程用时
+@tab 单线程多线程对比用时
 >17:36:55.872 [main] INFO TimeTest3 - System.currentTimeMillis, 多线程平均用时：2.4671727E7 ns
 17:36:55.873 [main] INFO TimeTest3 - System.currentTimeMillis, 单线程平均用时：2.2627341E7 ns
 
 :::
 
-## 结论
+禁止优化的结果，只测试了 多线程不包含 CAS 以及 单线程多线程对比：
+::: tabs#禁止优化结果
 
-1.可以发现，一旦包含 CAS 用时，实际运行时间会高出整整一个数量级。
+@tab 多线程不包含 CAS 用时
+>22:46:06.266 [main] INFO TimeTest2 - System.currentTimeMillis, 多线程平均用时：1.40766308E8 ns
+22:46:06.267 [main] INFO TimeTest2 - Instant.now, 多线程平均用时：7.98780965E8 ns
+22:46:06.267 [main] INFO TimeTest2 - SystemClock.now, 多线程平均用时：1.74802984E8 ns
 
-2.System.currentTimeMillis() 多线程并发并不会出现严重性能下降，性能差距大概在 10% 左右。
+@tab 单线程多线程对比用时
+>22:29:41.261 [main] INFO TimeTest3 - System.currentTimeMillis, 多线程平均用时：1.48923037E8 ns
+22:29:41.261 [main] INFO TimeTest3 - System.currentTimeMillis, 单线程平均用时：7.456092E7 ns
 
-3.缓存时间戳（SystemClock.now）确实有一些提升性能的效果，但效果并不是特别显著，差不多就是单线程和多线程 System.currentTimeMillis() 的区别。
+:::
 
-4.System.currentTimeMillis() 调用一次撑死占用几十纳秒，这种性能损耗基本不会影响业务逻辑。
+## 初步结论
+
+1.可以发现，CAS 在高并发下真的很慢，JIT 案例中绝大部分时间都用来进行 CAS 操作了。
+
+2.System.currentTimeMillis() 在单线程下性能可能是多线程并发的两倍左右（具体差距未知，取决于 System.nanoTime() 的粒度），不太可能是网传的几十倍几百倍性能差距。
+
+3.System.currentTimeMillis() 调用一次撑死占用一百多纳秒，这种性能损耗基本不会影响业务逻辑（实际单次调用耗时只会更少，你见过谁家线上服务器不开 JIT 的）。
 
 以上结论只对上述代码和上述测试平台负责，如果各位有更好的测试方法，欢迎留言讨论。
