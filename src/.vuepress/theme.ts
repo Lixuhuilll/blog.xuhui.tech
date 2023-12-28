@@ -22,6 +22,8 @@ export default hopeTheme({
 
   sidebarSorter: ["readme", "order", "date-desc", "title", "filename"],
 
+  pure: true,
+
   locales: {
     "/": {
       // navbar
